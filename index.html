@@ -37,12 +37,13 @@ input.addEventListener('change', () => {
   if (match) { latEl.value = match.dataset.lat||''; lonEl.value = match.dataset.lon||''; }
 });
 function go(e){
-  e.preventDefault();
+ e.preventDefault();
   const form = new FormData(document.getElementById('f'));
-  const params = new URLSearchParams(form).toString();
+  const nom = form.get('nom');
+  window.location.href = "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
+}
   // Remplacez ci-dessous par votre lien d’agenda (Supersaas/Calendly/Kiute). Si préremplissage non supporté, conservez l’URL telle quelle.
-  const agenda = 'https://www.supersaas.fr/schedule/Mabote/Mab%C3%B4t%C3%A9/?'+params;
-  location.href = agenda;
+  const agenda = 'https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
 }
 </script>
 ajout index.html 
