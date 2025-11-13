@@ -1,49 +1,44 @@
-<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pré‑réservation</title>
-<style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;max-width:520px;margin:auto}label{font-weight:600}input,button{width:100%;padding:12px;margin:8px 0}small{color:#555}</style>
-<h1>Pré‑réservation pop‑up</h1>
-<p>Indiquez votre adresse (confidentielle). L’adresse exacte du cabinet partenaire est transmise après confirmation.</p>
-<form id="f" onsubmit="go(event)">
-  <label>Adresse</label>
-  <input id="addr" name="adresse" type="text" placeholder="N°, rue, ville" autocomplete="off" list="addr-suggest" required>
-  <datalist id="addr-suggest"></datalist>
-  <input type="hidden" name="lat" id="addr-lat"><input type="hidden" name="lon" id="addr-lon">
-  <label>Nom</label><input name="nom" required>
-  <label>Email</label><input name="email" type="email" required>
-  <button type="submit">Continuer vers la réservation</button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pré‑réservation pop‑up</title>
+  <style>
+    body {font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;}
+    h1 {font-size:1.4em;}
+    label {display:block;margin-top:16px;}
+    input, button {margin-top:4px;padding:6px;width:100%;max-width:330px;}
+    button {background: #803d4a; color: #fff; border:none; border-radius: 4px;}
+    small {color: #666;}
+  </style>
+</head>
+<body>
+  <h1>Pré‑réservation pop‑up</h1>
+  <p>Indiquez votre nom, adresse et email ci-dessous. Seul le nom sera transmis automatiquement à votre agenda.</p>
+
+  <form id="f">
+    <label>Nom</label>
+    <input name="nom" required>
+
+    <label>Adresse</label>
+    <input name="adresse" required>
+
+    <label>Email</label>
+    <input name="email" type="email" required>
+
+    <button type="button" onclick="go(event)">Continuer vers la réservation</button>
+  </form>
   <small>Vos données sont utilisées uniquement pour organiser votre RDV.</small>
-</form>
-<script>
-const input = document.getElementById('addr');
-const list = document.getElementById('addr-suggest');
-const latEl = document.getElementById('addr-lat');
-const lonEl = document.getElementById('addr-lon');
-input.addEventListener('input', async () => {
-  const q = input.value.trim();
-  if (q.length < 3) { list.innerHTML = ''; return; }
-  const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=5&autocomplete=1`);
-  const data = await res.json();
-  list.innerHTML = '';
-  (data.features||[]).forEach(f => {
-    const opt = document.createElement('option');
-    opt.value = f.properties.label;
-    opt.dataset.lat = f.geometry.coordinates[1];
-    opt.dataset.lon = f.geometry.coordinates[0];
-    list.appendChild(opt);
-  });
-});
-input.addEventListener('change', () => {
-  const options = Array.from(list.options);
-  const match = options.find(o => o.value === input.value);
-  if (match) { latEl.value = match.dataset.lat||''; lonEl.value = match.dataset.lon||''; }
-});
-function go(e){
- e.preventDefault();
-  const form = new FormData(document.getElementById('f'));
-  const nom = form.get('nom');
-  window.location.href = "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
-}
-  // Remplacez ci-dessous par votre lien d’agenda (Supersaas/Calendly/Kiute). Si préremplissage non supporté, conservez l’URL telle quelle.
-  const agenda = 'https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
-}
-</script>
-ajout index.html 
+
+  <script>
+    function go(event) {
+      event.preventDefault();
+      const form = new FormData(document.getElementById('f'));
+      const nom = form.get('nom');
+      window.location.href =
+        "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" +
+        encodeURIComponent(nom);
+    }
+  </script>
+</body>
+</html>
