@@ -23,8 +23,21 @@
   </select>
   <input name="autre_origine" id="autre_origine" style="display:none;margin-top:8px;" placeholder="Précisez..." />
 
+  <label style="margin-top:18px;">
+    <input type="checkbox" name="newsletter" value="Oui">
+    Je souhaite recevoir les nouveautés, offres et conseils de Maison Mabôté par email.
+  </label>
+
+  <label style="font-size:0.9em;margin-top:10px;">
+    <input type="checkbox" name="rgpd_consent" required>
+    J'accepte que mes données soient collectées pour organiser ma réservation et recevoir des informations de Maison Mabôté, conformément au RGPD. <br>
+    <a href="#" target="_blank" style="color:#803d4a;">Voir la politique de confidentialité</a>
+  </label>
+
   <button type="submit">Continuer vers la réservation</button>
 </form>
+
+<small>Vos données sont utilisées uniquement pour la gestion de votre RDV et l’information Maison Mabôté. Elles ne seront jamais revendues ni utilisées à d’autres fins. Vous pouvez demander leur suppression à tout moment.</small>
 
 <script>
 function autreShow(val) {
