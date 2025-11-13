@@ -1,58 +1,110 @@
-<form id="f" action="https://formspree.io/f/meovonbe" method="POST">
-  <label>Nom</label>
-  <input name="nom" required>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pré‑réservation Maison Mabôté</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', "Roboto", Arial, sans-serif;
+      background: #faf6f4;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 410px;
+      margin: 40px auto 20px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #0001;
+      padding: 36px 28px 24px 28px;
+    }
+    h1 {
+      color: #982b4c;
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: 500;
+      margin-bottom: 30px;
+      letter-spacing: 0.5px;
+    }
+    label {
+      display: block;
+      margin-top: 17px;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 2px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+    input[type="checkbox"] {
+      margin-right: 7px;
+      vertical-align: middle;
+    }
+    button {
+      width: 100%;
+      background: linear-gradient(90deg,#a94a67 30%,#982b4c 90%);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin-top: 19px;
+      padding: 11px 0;
+      font-size: 1.08em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #982b4c14;
+      transition: background .2s;
+    }
+    button:hover { background: #982b4c; }
+    small, .infos {
+      font-size: 0.99em;
+      color: #805d62;
+      display:block;
+      margin: 18px 0 2px 0;
+      text-align: center;
+    }
+    .infos {
+      font-size: 0.88em; 
+      margin-top: 9px;
+    }
+    .rgpdbox {
+      background: #f6e9ef;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 14px;
+      margin-bottom: 2px;
+      font-size: 0.97em;
+      color: #803d4a;
+      line-height: 1.45em;
+    }
+    a { color: #982b4c; text-decoration: underline;}
+    #autre_origine {margin-top:6px;margin-bottom:0;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pré‑réservation <br> Maison Mabôté</h1>
+    <form id="f" action="https://formspree.io/f/meovonbe" method="POST" autocomplete="on">
+      <label>Nom</label>
+      <input name="nom" required>
 
-  <label>Adresse</label>
-  <input name="adresse" required>
+      <label>Adresse</label>
+      <input name="adresse" required>
 
-  <label>Email</label>
-  <input name="email" type="email" required>
+      <label>Email</label>
+      <input name="email" type="email" required>
 
-  <label>Téléphone</label>
-  <input name="telephone" type="tel" required>
+      <label>Téléphone</label>
+      <input name="telephone" type="tel" placeholder="06..." required>
 
-  <label>Comment avez-vous connu Maison Mabôté ?</label>
-  <select name="origine" id="origine" required onchange="autreShow(this.value)">
-    <option value="" disabled selected>Sélectionnez</option>
-    <option value="Facebook">Facebook</option>
-    <option value="Instagram">Instagram</option>
-    <option value="Tiktok">TikTok</option>
-    <option value="Google">Google</option>
-    <option value="Bouche à oreille">Bouche à oreille</option>
-    <option value="Autre">Autre : précisez ci-dessous</option>
-  </select>
-  <input name="autre_origine" id="autre_origine" style="display:none;margin-top:8px;" placeholder="Précisez..." />
-
-  <label style="margin-top:18px;">
-    <input type="checkbox" name="newsletter" value="Oui">
-    Je souhaite recevoir les nouveautés, offres et conseils de Maison Mabôté par email.
-  </label>
-
-  <label style="font-size:0.9em;margin-top:10px;">
-    <input type="checkbox" name="rgpd_consent" required>
-    J'accepte que mes données soient collectées pour organiser ma réservation et recevoir des informations de Maison Mabôté, conformément au RGPD. <br>
-    <a href="#" target="_blank" style="color:#803d4a;">Voir la politique de confidentialité</a>
-  </label>
-
-  <button type="submit">Continuer vers la réservation</button>
-</form>
-
-<small>Vos données sont utilisées uniquement pour la gestion de votre RDV et l’information Maison Mabôté. Elles ne seront jamais revendues ni utilisées à d’autres fins. Vous pouvez demander leur suppression à tout moment.</small>
-
-<script>
-function autreShow(val) {
-  document.getElementById('autre_origine').style.display = (val === 'Autre') ? 'block' : 'none';
-}
-document.getElementById('f').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const form = new FormData(this);
-  const nom = form.get('nom');
-  fetch(this.action, {
-    method: "POST",
-    body: form,
-    headers: { 'Accept': 'application/json' }
-  }).then(() => {
-    window.location.href = "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
-  });
-});
-</script>
+      <label>Comment avez-vous connu Maison Mabôté&nbsp;?</label>
+      <select name="origine" id="origine" required onchange="autreShow(this.value)">
+        <option value="" disabled selected>Sélectionnez</option>
+        <option value="Facebook">Facebook</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Tiktok">TikTok</option>
+        <option value="Google">Google</option>
+        <option value="Bouche
