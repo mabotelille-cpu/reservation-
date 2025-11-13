@@ -62,9 +62,10 @@
       <button type="submit">Continuer vers la réservation</button>
     </form>
     <small>Vos données sont utilisées uniquement pour la gestion de votre RDV et l’information Maison Mabôté.<br>Elles ne sont jamais revendues et vous pouvez demander leur suppression à tout moment.</small>
-  </div>
   <script>
-    function autreShow(val) { document.getElementById('autre_origine').style.display = (val === 'Autre') ? 'block' : 'none'; }
+    function autreShow(val) { 
+      document.getElementById('autre_origine').style.display = (val === 'Autre') ? 'block' : 'none'; 
+    }
     document.getElementById('f').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = new FormData(this);
@@ -78,5 +79,6 @@
       });
     });
   </script>
+  </div>
 </body>
 </html>
