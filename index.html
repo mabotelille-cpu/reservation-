@@ -14,9 +14,9 @@
 </head>
 <body>
   <h1>Pré‑réservation pop‑up</h1>
-  <p>Indiquez votre nom, adresse et email ci-dessous. Seul le nom sera transmis automatiquement à votre agenda.</p>
+  <p>Indiquez votre nom, adresse et email ci-dessous. Vous serez redirigé(e) vers le planning, et vos données seront enregistrées pour faciliter vos prochains contacts.</p>
 
-  <form id="f">
+  <form id="f" action="https://formspree.io/f/meovonbe" method="POST">
     <label>Nom</label>
     <input name="nom" required>
 
@@ -26,19 +26,23 @@
     <label>Email</label>
     <input name="email" type="email" required>
 
-    <button type="button" onclick="go(event)">Continuer vers la réservation</button>
+    <button type="submit">Continuer vers la réservation</button>
   </form>
-  <small>Vos données sont utilisées uniquement pour organiser votre RDV.</small>
+  <small>Vos données sont utilisées uniquement pour organiser votre RDV ou vous recontacter en cas d’abandon.</small>
 
   <script>
-    function go(event) {
-      event.preventDefault();
-      const form = new FormData(document.getElementById('f'));
+    document.getElementById('f').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = new FormData(this);
       const nom = form.get('nom');
-      window.location.href =
-        "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" +
-        encodeURIComponent(nom);
-    }
+      fetch(this.action, {
+        method: "POST",
+        body: form,
+        headers: { 'Accept': 'application/json' }
+      }).then(() => {
+        window.location.href = "https://www.supersaas.fr/schedule/Mabote/Mabôté?name=" + encodeURIComponent(nom);
+      });
+    });
   </script>
 </body>
 </html>
