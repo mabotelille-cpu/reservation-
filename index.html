@@ -5,16 +5,19 @@
   <title>Pré‑réservation Maison Mabôté</title>
   <style>
     body { font-family:'Segoe UI',Roboto,Arial,sans-serif; background:#faf6f4; margin:0; }
-    .container { max-width:410px; margin:40px auto 20px auto; background:#fff; border-radius:14px; box-shadow:0 2px 12px #0001; padding:36px 28px 24px 28px;}
-    h1 { color:#982b4c; text-align:center; font-size:1.3em; font-weight:500; margin-bottom:30px; letter-spacing:.5px; }
-    label { display:block; margin-top:17px; margin-bottom:5px; font-weight:500;}
-    input[type="text"],input[type="email"],input[type="tel"],select { width:100%; padding:8px 10px; margin-bottom:2px; border-radius:5px; border:1px solid #ccc; font-size:1em;}
+    .container { max-width:410px; margin:36px auto 12px auto; background:#fff; border-radius:14px; box-shadow:0 2px 12px #0001; padding:24px 22px 14px 22px;}
+    h1 { color:#982b4c; text-align:center; font-size:1.2em; font-weight:500; margin-bottom:14px; letter-spacing:.5px; }
+    .logo { display:block; margin: 1px auto 15px auto; width:75px; height:auto; }
+    .row { display:flex; gap:14px;}
+    .row input { width:100%; }
+    label { display:block; margin-top:13px; margin-bottom:3px; font-weight:500;}
+    input[type="text"],input[type="email"],input[type="tel"],select { width:100%; padding:7px 9px; margin-bottom:2px; border-radius:5px; border:1px solid #ccc; font-size:1em;}
     input[type="checkbox"] {margin-right:7px;vertical-align:middle;}
-    button {width:100%;background:linear-gradient(90deg,#a94a67 30%,#982b4c 90%);color:#fff;border:none;border-radius:5px;margin-top:19px;padding:11px 0;font-size:1.08em;font-weight:600;cursor:pointer;box-shadow:0 2px 8px #982b4c14;transition:background .2s;}
+    button {width:100%;background:linear-gradient(90deg,#a94a67 30%,#982b4c 90%);color:#fff;border:none;border-radius:5px;margin-top:14px;padding:10px 0;font-size:1.04em;font-weight:600;cursor:pointer;box-shadow:0 2px 8px #982b4c14;}
     button:hover {background:#982b4c;}
-    small, .infos {font-size:.99em;color:#805d62;display:block;margin:18px 0 2px 0;text-align:center;}
-    .infos {font-size:.88em;margin-top:9px;}
-    .rgpdbox { background:#f6e9ef;padding:10px 14px;border-radius:8px;margin-top:14px;margin-bottom:2px;font-size:.97em;color:#803d4a;line-height:1.45em;}
+    small, .infos {font-size:.97em;color:#805d62;display:block;margin:12px 0 2px 0;text-align:center;}
+    .infos {font-size:.87em;margin-top:7px;}
+    .rgpdbox { background:#f6e9ef;padding:8px 11px;border-radius:8px;margin-top:12px;margin-bottom:2px;font-size:.96em;color:#803d4a;}
     a {color:#982b4c;text-decoration:underline;}
     #autre_origine {margin-top:6px;margin-bottom:0;}
   </style>
@@ -22,10 +25,18 @@
 <body>
   <div class="container">
     <h1>Pré‑réservation <br> Maison Mabôté</h1>
+    <img src="URL_DE_TON_LOGO" alt="Maison Mabôté" class="logo" />
     <form id="f" action="https://formspree.io/f/meovonbe" method="POST" autocomplete="on">
-      <label>Nom</label>
-      <input name="nom" required>
-
+      <div class="row">
+        <div>
+          <label>Prénom</label>
+          <input name="prenom" required>
+        </div>
+        <div>
+          <label>Nom</label>
+          <input name="nom" required>
+        </div>
+      </div>
       <label>Adresse</label>
       <input name="adresse" required>
 
@@ -48,12 +59,12 @@
       </select>
       <input name="autre_origine" id="autre_origine" style="display:none;margin-top:8px;" placeholder="Précisez..." />
 
-      <label style="margin-top:18px;">
+      <label style="margin-top:14px;">
         <input type="checkbox" name="newsletter" value="Oui">
         Je souhaite recevoir les nouveautés, offres et conseils de Maison Mabôté par email.
       </label>
 
-      <label style="font-size:0.9em;margin-top:10px;">
+      <label class="rgpdbox" style="font-size:0.92em;margin-top:8px;">
         <input type="checkbox" name="rgpd_consent" required>
         J'accepte que mes données soient collectées pour organiser ma réservation et recevoir des informations, conformément au RGPD.
         <a href="#" target="_blank" style="color:#803d4a;">Voir la politique de confidentialité</a>
@@ -63,9 +74,7 @@
     </form>
     <small>Vos données sont utilisées uniquement pour la gestion de votre RDV et l’information Maison Mabôté.<br>Elles ne sont jamais revendues et vous pouvez demander leur suppression à tout moment.</small>
   <script>
-    function autreShow(val) { 
-      document.getElementById('autre_origine').style.display = (val === 'Autre') ? 'block' : 'none'; 
-    }
+    function autreShow(val) { document.getElementById('autre_origine').style.display = (val === 'Autre') ? 'block' : 'none'; }
     document.getElementById('f').addEventListener('submit', function(e) {
       e.preventDefault();
       const form = new FormData(this);
