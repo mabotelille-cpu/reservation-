@@ -14,13 +14,20 @@
       text-align: center;
     }
     .header img {
-      height: 80px;
+      height: 100px;
       margin-bottom: 10px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 18px #d0ccc8;
+      padding: 12px;
+      display: inline-block;
+      vertical-align: middle;
     }
     .header h1 {
       color: #544036;
       margin: 0;
       font-size: 2.2em;
+      font-weight: bold;
       letter-spacing: 2px;
     }
     .container {
@@ -50,15 +57,35 @@
     ul, ol {
       margin-left: 18px;
     }
+    .btn-retour {
+      display: inline-block;
+      background: #dfb7bd;
+      color: #544036;
+      padding: 12px 28px;
+      border-radius: 24px;
+      box-shadow: 0 2px 10px #d0ccc8;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.13em;
+      letter-spacing: 1px;
+      transition: background 0.3s, color 0.3s;
+      margin-bottom: 18px;
+    }
+    .btn-retour:hover {
+      background: #544036;
+      color: #dfb7bd;
+    }
   </style>
 </head>
 <body>
+  <div style="text-align:center; margin-top:30px;">
+    <a href="index.html" class="btn-retour">← Retour à la pré-réservation</a>
+  </div>
   <div class="header">
     <img src="logo.png" alt="Logo Maison Mabôté">
     <h1>Politique de confidentialité</h1>
   </div>
   <div class="container">
-    <!-- Le contenu de ta politique commence ici -->
     <h2>Introduction</h2>
     <p>
       Chez Maison Mabôté, votre vie privée est une priorité. Cette politique explique comment nous traitons vos données et protège vos informations personnelles lors de l’utilisation de nos services.
