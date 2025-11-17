@@ -1,5 +1,6 @@
 <head>
   <title>Pré‑réservation Maison Mabôté</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background-color: #eae4e1;
@@ -38,23 +39,35 @@
       padding: 38px 32px;
       border-radius: 18px;
     }
+    .row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .row label {
+      margin-top: 0 !important;
+    }
+    .row .col {
+      flex: 1;
+    }
     label {
       font-weight: bold;
       color: #544036;
       margin-top: 13px;
       display: block;
     }
-    input, select {
+    input, select, textarea {
       display: block;
-      width: 95%;
+      width: 100%;
       font-size: 1em;
       margin-top: 6px;
-      margin-bottom: 18px;
+      margin-bottom: 0;
       padding: 9px;
       border-radius: 8px;
       border: 1px solid #d0ccc8;
       background: #eae4e1;
       color: #544036;
+      box-sizing: border-box;
     }
     input[type="checkbox"] {
       display: inline-block;
@@ -73,6 +86,7 @@
       box-shadow: 0 2px 10px #d0ccc8;
       cursor: pointer;
       transition: background 0.3s, color 0.3s;
+      margin-bottom: 7px;
     }
     .btn-envoyer:hover {
       background: #544036;
@@ -94,7 +108,28 @@
     .rgpd-link:hover {
       color: #544036;
     }
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .container {
+        padding: 14px 3vw;
+      }
+      .row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .header h1 {
+        font-size: 1.45em;
+      }
+    }
   </style>
+  <script>
+    function showOtherField() {
+      var connu = document.getElementById("connu");
+      var autre = document.getElementById("connu_autre_wrap");
+      autre.style.display = (connu.value === "Autre") ? "block" : "none";
+      document.getElementById("connu_autre").required = (connu.value === "Autre");
+    }
+  </script>
 </head>
 <body>
   <div class="header">
@@ -103,11 +138,16 @@
   </div>
   <div class="container">
     <form method="POST" action="https://formspree.io/f/meovonbe">
-      <label for="prenom">Prénom</label>
-      <input id="prenom" name="Prénom" required>
-
-      <label for="nom">Nom</label>
-      <input id="nom" name="Nom" required>
+      <div class="row">
+        <div class="col">
+          <label for="prenom">Prénom</label>
+          <input id="prenom" name="Prénom" required>
+        </div>
+        <div class="col">
+          <label for="nom">Nom</label>
+          <input id="nom" name="Nom" required>
+        </div>
+      </div>
 
       <label for="adresse">Adresse</label>
       <input id="adresse" name="Adresse" required>
@@ -119,7 +159,7 @@
       <input id="tel" name="Téléphone" required placeholder="+33 6... ou +32 4...">
 
       <label for="connu">Comment avez-vous connu Maison Mabôté ?</label>
-      <select id="connu" name="Connaissance" required>
+      <select id="connu" name="Connaissance" onchange="showOtherField()" required>
         <option value="" disabled selected>Choisissez</option>
         <option value="Facebook">Facebook</option>
         <option value="Instagram">Instagram</option>
@@ -128,6 +168,10 @@
         <option value="Bouche à oreille">Bouche à oreille</option>
         <option value="Autre">Autre</option>
       </select>
+      <div id="connu_autre_wrap" style="display:none;">
+        <label for="connu_autre">Précisez :</label>
+        <textarea id="connu_autre" name="Connaissance autre" rows="1" placeholder="Détaillez comment vous avez connu Maison Mabôté"></textarea>
+      </div>
 
       <label>
         <input type="checkbox" name="Newsletter">
