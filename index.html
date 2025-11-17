@@ -111,6 +111,31 @@
     .rgpd-link:hover {
       color: #544036;
     }
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d0ccc8;
+      border-top: none;
+      z-index: 99;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+    }
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #d0ccc8;
+    }
+    .autocomplete-items div:hover {
+      background-color: #eae4e1;
+    }
+    .autocomplete {
+      position: relative;
+    }
     @media (max-width: 600px) {
       .container {
         padding: 14px 3vw;
@@ -150,13 +175,32 @@
           <input id="nom" name="Nom" required>
         </div>
       </div>
-      <label for="adresse">Adresse</label>
-      <input id="adresse" name="Adresse" required>
+
+      <div class="row">
+        <div class="col autocomplete">
+          <label for="ville">Ville</label>
+          <input id="ville" name="Ville" required placeholder="ex: Lille" autocomplete="off">
+        </div>
+        <div class="col">
+          <label for="cp">Code postal</label>
+          <input id="cp" name="Code Postal" required placeholder="ex: 59000">
+        </div>
+      </div>
+
+      <label for="pays">Pays</label>
+      <select id="pays" name="Pays" required>
+        <option value="" disabled selected>Sélectionnez votre pays</option>
+        <option value="France">France</option>
+        <option value="Belgique">Belgique</option>
+      </select>
+
       <label for="email">Email</label>
       <input id="email" name="Email" type="email" required>
+
       <label for="tel">Téléphone (Whatsapp accepté, France +33 / Belgique +32)</label>
       <input id="tel" name="Téléphone" required placeholder="+33 6... ou +32 4...">
-      <label for="connu">Comment avez-vous connu Maison Mabôté ?</label>
+
+      <label for="connu">Comment avez-vous connu Maison Mabôté ?</label>
       <select id="connu" name="Connaissance" onchange="showOtherField()" required>
         <option value="" disabled selected>Choisissez</option>
         <option value="Facebook">Facebook</option>
@@ -167,9 +211,10 @@
         <option value="Autre">Autre</option>
       </select>
       <div id="connu_autre_wrap" style="display:none;">
-        <label for="connu_autre">Précisez :</label>
+        <label for="connu_autre">Précisez :</label>
         <textarea id="connu_autre" name="Connaissance autre" rows="1" placeholder="Détaillez comment vous avez connu Maison Mabôté"></textarea>
       </div>
+
       <label>
         <input type="checkbox" name="Newsletter">
         Je souhaite recevoir les nouveautés, offres et conseils par email.
@@ -182,10 +227,198 @@
       <button type="submit" class="btn-envoyer">Continuer vers la réservation</button>
     </form>
     <div class="infos">
-      Vos données sont utilisées uniquement pour la gestion de votre RDV et l’information Maison Mabôté.<br>
+      Vos données sont utilisées uniquement pour la gestion de votre RDV et l'information Maison Mabôté.<br>
       Elles ne sont jamais revendues et vous pouvez demander leur suppression à tout moment.
     </div>
   </div>
+  <script>
+    // Base de données villes : Zone 30km Hem + Grandes villes FR/BE
+    const villes = [
+      // Zone 30km autour de Hem (59510) - Métropole Lilloise et environs
+      {ville: "Hem", cp: "59510", pays: "France"},
+      {ville: "Lannoy", cp: "59390", pays: "France"},
+      {ville: "Forest-sur-Marque", cp: "59510", pays: "France"},
+      {ville: "Sailly-lez-Lannoy", cp: "59390", pays: "France"},
+      {ville: "Lys-lez-Lannoy", cp: "59390", pays: "France"},
+      {ville: "Toufflers", cp: "59390", pays: "France"},
+      {ville: "Croix", cp: "59170", pays: "France"},
+      {ville: "Roubaix", cp: "59100", pays: "France"},
+      {ville: "Wasquehal", cp: "59290", pays: "France"},
+      {ville: "Tressin", cp: "59152", pays: "France"},
+      {ville: "Willems", cp: "59780", pays: "France"},
+      {ville: "Villeneuve-d'Ascq", cp: "59650", pays: "France"},
+      {ville: "Chéreng", cp: "59152", pays: "France"},
+      {ville: "Tourcoing", cp: "59200", pays: "France"},
+      {ville: "Lille", cp: "59000", pays: "France"},
+      {ville: "Marcq-en-Baroeul", cp: "59700", pays: "France"},
+      {ville: "Mons-en-Baroeul", cp: "59370", pays: "France"},
+      {ville: "La Madeleine", cp: "59110", pays: "France"},
+      {ville: "Lambersart", cp: "59130", pays: "France"},
+      {ville: "Saint-André-lez-Lille", cp: "59350", pays: "France"},
+      {ville: "Marquette-lez-Lille", cp: "59520", pays: "France"},
+      {ville: "Bondues", cp: "59910", pays: "France"},
+      {ville: "Mouvaux", cp: "59420", pays: "France"},
+      {ville: "Wattrelos", cp: "59150", pays: "France"},
+      {ville: "Leers", cp: "59115", pays: "France"},
+      {ville: "Hem", cp: "59510", pays: "France"},
+      {ville: "Anstaing", cp: "59152", pays: "France"},
+      {ville: "Gruson", cp: "59152", pays: "France"},
+      {ville: "Baisieux", cp: "59780", pays: "France"},
+      {ville: "Bouvines", cp: "59830", pays: "France"},
+      {ville: "Cysoing", cp: "59830", pays: "France"},
+      {ville: "Louvil", cp: "59830", pays: "France"},
+      {ville: "Camphin-en-Pévèle", cp: "59780", pays: "France"},
+      {ville: "Templeuve-en-Pévèle", cp: "59242", pays: "France"},
+      {ville: "Fretin", cp: "59273", pays: "France"},
+      {ville: "Péronne-en-Mélantois", cp: "59273", pays: "France"},
+      {ville: "Lesquin", cp: "59810", pays: "France"},
+      {ville: "Faches-Thumesnil", cp: "59155", pays: "France"},
+      {ville: "Wattignies", cp: "59139", pays: "France"},
+      {ville: "Lezennes", cp: "59260", pays: "France"},
+      {ville: "Ronchin", cp: "59790", pays: "France"},
+      {ville: "Loos", cp: "59120", pays: "France"},
+      {ville: "Haubourdin", cp: "59320", pays: "France"},
+      {ville: "Emmerin", cp: "59320", pays: "France"},
+      {ville: "Seclin", cp: "59113", pays: "France"},
+      {ville: "Wattignies", cp: "59139", pays: "France"},
+      {ville: "Armentières", cp: "59280", pays: "France"},
+      {ville: "Houplines", cp: "59116", pays: "France"},
+      {ville: "La Chapelle-d'Armentières", cp: "59930", pays: "France"},
+      {ville: "Nieppe", cp: "59850", pays: "France"},
+      {ville: "Halluin", cp: "59250", pays: "France"},
+      {ville: "Bousbecque", cp: "59166", pays: "France"},
+      {ville: "Linselles", cp: "59126", pays: "France"},
+      {ville: "Wervik", cp: "8940", pays: "Belgique"},
+      {ville: "Comines", cp: "59560", pays: "France"},
+      {ville: "Wervicq-Sud", cp: "59117", pays: "France"},
+            {ville: "Neuville-en-Ferrain", cp: "59960", pays: "France"},
+      {ville: "Roncq", cp: "59223", pays: "France"},
+      {ville: "Lomme", cp: "59160", pays: "France"},
+      {ville: "Sequedin", cp: "59320", pays: "France"},
+      {ville: "Capinghem", cp: "59160", pays: "France"},
+      {ville: "Ennetières-en-Weppes", cp: "59320", pays: "France"},
+      {ville: "Prémesques", cp: "59840", pays: "France"},
+      {ville: "Pérenchies", cp: "59840", pays: "France"},
+      {ville: "Verlinghem", cp: "59237", pays: "France"},
+      {ville: "Erquinghem-Lys", cp: "59193", pays: "France"},
+      
+      // Villes belges proches (frontalières)
+      {ville: "Mouscron", cp: "7700", pays: "Belgique"},
+      {ville: "Estaimpuis", cp: "7730", pays: "Belgique"},
+      {ville: "Tournai", cp: "7500", pays: "Belgique"},
+      {ville: "Courtrai", cp: "8500", pays: "Belgique"},
+      {ville: "Menin", cp: "8930", pays: "Belgique"},
+      {ville: "Comines-Warneton", cp: "7780", pays: "Belgique"},
+      
+      // Grandes villes françaises
+      {ville: "Paris", cp: "75001", pays: "France"},
+      {ville: "Lyon", cp: "69001", pays: "France"},
+      {ville: "Marseille", cp: "13001", pays: "France"},
+      {ville: "Toulouse", cp: "31000", pays: "France"},
+      {ville: "Nice", cp: "06000", pays: "France"},
+      {ville: "Nantes", cp: "44000", pays: "France"},
+      {ville: "Bordeaux", cp: "33000", pays: "France"},
+      {ville: "Strasbourg", cp: "67000", pays: "France"},
+      {ville: "Montpellier", cp: "34000", pays: "France"},
+      {ville: "Rennes", cp: "35000", pays: "France"},
+      {ville: "Reims", cp: "51100", pays: "France"},
+      {ville: "Le Havre", cp: "76600", pays: "France"},
+      {ville: "Saint-Étienne", cp: "42000", pays: "France"},
+      {ville: "Toulon", cp: "83000", pays: "France"},
+      {ville: "Grenoble", cp: "38000", pays: "France"},
+      {ville: "Dijon", cp: "21000", pays: "France"},
+      {ville: "Angers", cp: "49000", pays: "France"},
+      {ville: "Nîmes", cp: "30000", pays: "France"},
+      {ville: "Villeurbanne", cp: "69100", pays: "France"},
+      {ville: "Clermont-Ferrand", cp: "63000", pays: "France"},
+      {ville: "Le Mans", cp: "72000", pays: "France"},
+      {ville: "Aix-en-Provence", cp: "13100", pays: "France"},
+      {ville: "Brest", cp: "29200", pays: "France"},
+      {ville: "Tours", cp: "37000", pays: "France"},
+      {ville: "Amiens", cp: "80000", pays: "France"},
+      {ville: "Limoges", cp: "87000", pays: "France"},
+      {ville: "Annecy", cp: "74000", pays: "France"},
+      {ville: "Perpignan", cp: "66000", pays: "France"},
+      {ville: "Besançon", cp: "25000", pays: "France"},
+      {ville: "Orléans", cp: "45000", pays: "France"},
+      {ville: "Metz", cp: "57000", pays: "France"},
+      {ville: "Rouen", cp: "76000", pays: "France"},
+      {ville: "Mulhouse", cp: "68100", pays: "France"},
+      {ville: "Caen", cp: "14000", pays: "France"},
+      {ville: "Nancy", cp: "54000", pays: "France"},
+      {ville: "Dunkerque", cp: "59140", pays: "France"},
+      {ville: "Valenciennes", cp: "59300", pays: "France"},
+      {ville: "Douai", cp: "59500", pays: "France"},
+      {ville: "Lens", cp: "62300", pays: "France"},
+      {ville: "Calais", cp: "62100", pays: "France"},
+      {ville: "Béthune", cp: "62400", pays: "France"},
+      
+      // Grandes villes belges
+      {ville: "Bruxelles", cp: "1000", pays: "Belgique"},
+      {ville: "Anvers", cp: "2000", pays: "Belgique"},
+      {ville: "Gand", cp: "9000", pays: "Belgique"},
+      {ville: "Liège", cp: "4000", pays: "Belgique"},
+      {ville: "Charleroi", cp: "6000", pays: "Belgique"},
+      {ville: "Bruges", cp: "8000", pays: "Belgique"},
+      {ville: "Namur", cp: "5000", pays: "Belgique"},
+      {ville: "Mons", cp: "7000", pays: "Belgique"},
+      {ville: "Louvain", cp: "3000", pays: "Belgique"},
+      {ville: "Malines", cp: "2800", pays: "Belgique"},
+      {ville: "Ostende", cp: "8400", pays: "Belgique"},
+      {ville: "Verviers", cp: "4800", pays: "Belgique"},
+      {ville: "Hasselt", cp: "3500", pays: "Belgique"}
+    ];
+
+    function autocomplete(inp) {
+      let currentFocus;
+      inp.addEventListener("input", function(e) {
+        let a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false; }
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        
+        let count = 0;
+        for (i = 0; i < villes.length; i++) {
+          if (villes[i].ville.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + villes[i].ville.substr(0, val.length) + "</strong>";
+            b.innerHTML += villes[i].ville.substr(val.length);
+            b.innerHTML += " (" + villes[i].cp + ", " + villes[i].pays + ")";
+            b.innerHTML += "<input type='hidden' value='" + villes[i].ville + "' data-cp='" + villes[i].cp + "' data-pays='" + villes[i].pays + "'>";
+            b.addEventListener("click", function(e) {
+              let input = this.getElementsByTagName("input")[0];
+              inp.value = input.value;
+              document.getElementById("cp").value = input.getAttribute("data-cp");
+              document.getElementById("pays").value = input.getAttribute("data-pays");
+              closeAllLists();
+            });
+            a.appendChild(b);
+            count++;
+            if (count >= 10) break;
+          }
+        }
+      });
+      
+      function closeAllLists(elmnt) {
+        let x = document.getElementsByClassName("autocomplete-items");
+        for (let i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
+      }
+      document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      autocomplete(document.getElementById("ville"));
+    });
+  </script>
   <script>
     document.querySelector('form').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -201,7 +434,7 @@
       }).then(function() {
         document.querySelector('.container').innerHTML = `
           <div style="text-align:center;padding:45px 0;">
-            <h2 style="color:#544036">Vous allez être redirigée vers l’agenda Maison Mabôté 🗓️</h2>
+            <h2 style="color:#544036">Vous allez être redirigée vers l'agenda Maison Mabôté 🗓️</h2>
             <div style="margin:20px 0 0 0; color:#dfb7bd;">Un instant… Laissez-vous guider vers la réservation de votre prochain moment beauté !</div>
           </div>
         `;
@@ -213,3 +446,4 @@
   </script>
 </body>
 </html>
+
