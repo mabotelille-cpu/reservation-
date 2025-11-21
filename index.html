@@ -515,9 +515,18 @@
       });
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      autocomplete(document.getElementById("ville"));
-    });
+      document.addEventListener("DOMContentLoaded", function() {
+    autocomplete(document.getElementById("ville"));
+    
+    // Détection automatique de la source depuis l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const sourceFromUrl = urlParams.get('source');
+    
+    if (sourceFromUrl) {
+      document.getElementById('utm_source').value = sourceFromUrl;
+    }
+  });
+
   </script>
   <script>
     document.querySelector('form').addEventListener('submit', function(e) {
