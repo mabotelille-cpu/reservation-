@@ -157,6 +157,17 @@
       document.getElementById("connu_autre").required = (connu.value === "Autre");
     }
   </script>
+  <!-- NOUVEAU : Tracking automatique de la source -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const source = urlParams.get('utm_source');
+      const inputSource = document.getElementById("utm_source");
+      if (inputSource && source) { 
+        inputSource.value = source; 
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="header">
@@ -164,9 +175,11 @@
     <h1>Pré‑réservation</h1>
   </div>
   <div class="container">
-    <form method="POST" action="https://formspree.io/f/meovonbe">
+    <form id="pre-reservation" method="POST" action="URL_DU_SCRIPT_GOOGLE">
+      <!-- NOUVEAU : Champ caché pour tracking automatique -->
+      <input type="hidden" id="utm_source" name="Source" value="carte_de_visite">
+      
       <div class="row">
-                    <input type="hidden" name="utm_source" value="qr_businesscard">
         <div class="col">
           <label for="prenom">Prénom</label>
           <input id="prenom" name="Prénom" required>
@@ -279,7 +292,7 @@
       {ville: "Haubourdin", cp: "59320", pays: "France"},
       {ville: "Emmerin", cp: "59320", pays: "France"},
       {ville: "Seclin", cp: "59113", pays: "France"},
-            {ville: "Sainghin-en-Mélantois", cp: "59262", pays: "France"},
+      {ville: "Sainghin-en-Mélantois", cp: "59262", pays: "France"},
       {ville: "Sainghin-en-Weppes", cp: "59184", pays: "France"},
       {ville: "Allennes-les-Marais", cp: "59251", pays: "France"},
       {ville: "Annœullin", cp: "59112", pays: "France"},
@@ -329,7 +342,6 @@
       {ville: "Wambrechies", cp: "59118", pays: "France"},
       {ville: "Wannehain", cp: "59830", pays: "France"},
       {ville: "Wavrin", cp: "59136", pays: "France"},
-
       {ville: "Wattignies", cp: "59139", pays: "France"},
       {ville: "Armentières", cp: "59280", pays: "France"},
       {ville: "Houplines", cp: "59116", pays: "France"},
@@ -341,7 +353,7 @@
       {ville: "Wervik", cp: "8940", pays: "Belgique"},
       {ville: "Comines", cp: "59560", pays: "France"},
       {ville: "Wervicq-Sud", cp: "59117", pays: "France"},
-            {ville: "Neuville-en-Ferrain", cp: "59960", pays: "France"},
+      {ville: "Neuville-en-Ferrain", cp: "59960", pays: "France"},
       {ville: "Roncq", cp: "59223", pays: "France"},
       {ville: "Lomme", cp: "59160", pays: "France"},
       {ville: "Sequedin", cp: "59320", pays: "France"},
@@ -352,52 +364,51 @@
       {ville: "Verlinghem", cp: "59237", pays: "France"},
       {ville: "Erquinghem-Lys", cp: "59193", pays: "France"},
       
-// Villes belges proches (frontalières + zone 30km)
-{ville: "Mouscron", cp: "7700", pays: "Belgique"},
-{ville: "Estaimpuis", cp: "7730", pays: "Belgique"},
-{ville: "Estaimbourg", cp: "7730", pays: "Belgique"},
-{ville: "Leers-Nord", cp: "7730", pays: "Belgique"},
-{ville: "Néchin", cp: "7730", pays: "Belgique"},
-{ville: "Bailleul", cp: "7730", pays: "Belgique"},
-{ville: "Saint-Léger", cp: "7730", pays: "Belgique"},
-{ville: "Tournai", cp: "7500", pays: "Belgique"},
-{ville: "Courtrai", cp: "8500", pays: "Belgique"},
-{ville: "Menin", cp: "8930", pays: "Belgique"},
-{ville: "Comines-Warneton", cp: "7780", pays: "Belgique"},
-{ville: "Comines", cp: "7780", pays: "Belgique"},
-{ville: "Ploegsteert", cp: "7782", pays: "Belgique"},
-{ville: "Warneton", cp: "7784", pays: "Belgique"},
-{ville: "Bas-Warneton", cp: "7784", pays: "Belgique"},
-{ville: "Wervik", cp: "8940", pays: "Belgique"},
-{ville: "Geluwe", cp: "8940", pays: "Belgique"},
-{ville: "Wervicq", cp: "8950", pays: "Belgique"},
-{ville: "Rekkem", cp: "8930", pays: "Belgique"},
-{ville: "Lauwe", cp: "8930", pays: "Belgique"},
-{ville: "Dottignies", cp: "7711", pays: "Belgique"},
-{ville: "Luingne", cp: "7700", pays: "Belgique"},
-{ville: "Herseaux", cp: "7712", pays: "Belgique"},
-{ville: "Espierres-Helchin", cp: "8587", pays: "Belgique"},
-{ville: "Helchin", cp: "8587", pays: "Belgique"},
-{ville: "Espierres", cp: "8587", pays: "Belgique"},
-{ville: "Flobecq", cp: "7880", pays: "Belgique"},
-{ville: "Ellezelles", cp: "7890", pays: "Belgique"},
-{ville: "Mont-de-l'Enclus", cp: "7750", pays: "Belgique"},
-{ville: "Rumes", cp: "7610", pays: "Belgique"},
-{ville: "Pecq", cp: "7740", pays: "Belgique"},
-{ville: "Celles", cp: "7760", pays: "Belgique"},
-{ville: "Kooigem", cp: "8750", pays: "Belgique"},
-{ville: "Aalbeke", cp: "8511", pays: "Belgique"},
-{ville: "Heule", cp: "8501", pays: "Belgique"},
-{ville: "Bellegem", cp: "8510", pays: "Belgique"},
-{ville: "Marke", cp: "8510", pays: "Belgique"},
-{ville: "Rollegem", cp: "8510", pays: "Belgique"},
-{ville: "Bissegem", cp: "8501", pays: "Belgique"},
-{ville: "Kuurne", cp: "8520", pays: "Belgique"},
-{ville: "Harelbeke", cp: "8530", pays: "Belgique"},
-{ville: "Zwevegem", cp: "8550", pays: "Belgique"},
-{ville: "Deerlijk", cp: "8540", pays: "Belgique"},
-{ville: "Waregem", cp: "8790", pays: "Belgique"},
-
+      // Villes belges proches (frontalières + zone 30km)
+      {ville: "Mouscron", cp: "7700", pays: "Belgique"},
+      {ville: "Estaimpuis", cp: "7730", pays: "Belgique"},
+      {ville: "Estaimbourg", cp: "7730", pays: "Belgique"},
+      {ville: "Leers-Nord", cp: "7730", pays: "Belgique"},
+      {ville: "Néchin", cp: "7730", pays: "Belgique"},
+      {ville: "Bailleul", cp: "7730", pays: "Belgique"},
+      {ville: "Saint-Léger", cp: "7730", pays: "Belgique"},
+      {ville: "Tournai", cp: "7500", pays: "Belgique"},
+      {ville: "Courtrai", cp: "8500", pays: "Belgique"},
+      {ville: "Menin", cp: "8930", pays: "Belgique"},
+      {ville: "Comines-Warneton", cp: "7780", pays: "Belgique"},
+      {ville: "Comines", cp: "7780", pays: "Belgique"},
+      {ville: "Ploegsteert", cp: "7782", pays: "Belgique"},
+      {ville: "Warneton", cp: "7784", pays: "Belgique"},
+      {ville: "Bas-Warneton", cp: "7784", pays: "Belgique"},
+      {ville: "Wervik", cp: "8940", pays: "Belgique"},
+      {ville: "Geluwe", cp: "8940", pays: "Belgique"},
+      {ville: "Wervicq", cp: "8950", pays: "Belgique"},
+      {ville: "Rekkem", cp: "8930", pays: "Belgique"},
+      {ville: "Lauwe", cp: "8930", pays: "Belgique"},
+      {ville: "Dottignies", cp: "7711", pays: "Belgique"},
+      {ville: "Luingne", cp: "7700", pays: "Belgique"},
+      {ville: "Herseaux", cp: "7712", pays: "Belgique"},
+      {ville: "Espierres-Helchin", cp: "8587", pays: "Belgique"},
+      {ville: "Helchin", cp: "8587", pays: "Belgique"},
+      {ville: "Espierres", cp: "8587", pays: "Belgique"},
+      {ville: "Flobecq", cp: "7880", pays: "Belgique"},
+      {ville: "Ellezelles", cp: "7890", pays: "Belgique"},
+      {ville: "Mont-de-l'Enclus", cp: "7750", pays: "Belgique"},
+      {ville: "Rumes", cp: "7610", pays: "Belgique"},
+      {ville: "Pecq", cp: "7740", pays: "Belgique"},
+      {ville: "Celles", cp: "7760", pays: "Belgique"},
+      {ville: "Kooigem", cp: "8750", pays: "Belgique"},
+      {ville: "Aalbeke", cp: "8511", pays: "Belgique"},
+      {ville: "Heule", cp: "8501", pays: "Belgique"},
+      {ville: "Bellegem", cp: "8510", pays: "Belgique"},
+      {ville: "Marke", cp: "8510", pays: "Belgique"},
+      {ville: "Rollegem", cp: "8510", pays: "Belgique"},
+      {ville: "Bissegem", cp: "8501", pays: "Belgique"},
+      {ville: "Kuurne", cp: "8520", pays: "Belgique"},
+      {ville: "Harelbeke", cp: "8530", pays: "Belgique"},
+      {ville: "Zwevegem", cp: "8550", pays: "Belgique"},
+      {ville: "Deerlijk", cp: "8540", pays: "Belgique"},
+      {ville: "Waregem", cp: "8790", pays: "Belgique"},
       
       // Grandes villes françaises
       {ville: "Paris", cp: "75001", pays: "France"},
@@ -535,4 +546,3 @@
   </script>
 </body>
 </html>
-
